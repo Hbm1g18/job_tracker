@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job List</title>
+    <script>
+        {% if message %}
+            alert('{{ message }}');
+        {% endif %}
+    </script>
+</head>
+<body>
+    <h1>Job List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Job Code</th>
+                <th>Chargeable</th>
+                <th>Work Description</th>
+                <th>Urgency</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task[0] }}</td>
+                <td>{{ task[1] }}</td>
+                <td>{{ task[2] }}</td>
+                <td>{{ task[3] }}</td>
+                <td>{{ task[4] }}</td>
+                <td>
+                    {% if task[4] == 'pending' %}
+                    <form action="/markcomplete" method="POST">
+                        <input type="hidden" name="job_code" value="{{ task[0] }}">
+                        <input type="submit" value="Mark Complete">
+                    </form>
+                    {% else %}
+                    Complete
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/">Add a Job</a>
+</body>
+</html>

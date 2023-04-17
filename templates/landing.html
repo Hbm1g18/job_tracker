@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Tracker</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        
+        #header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #container {
+            width: 40%;
+            float: left;
+            margin: auto;
+            margin-left: 2%;
+            margin-top: 5vh;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #container2 {
+            width: 50%;
+            float: right;
+            margin: auto;
+            margin-right: 2%;
+            margin-top: 5vh;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #container2 th {
+            width: 16.66%;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Job Tracker</h1>
+    </div>
+    <div id="container">
+        <form action="/addjob" method="POST">
+            <label for="job_code">Job Code:</label>
+            <input type="text" id="job_code" name="job_code">
+
+            <label for="chargeable">Chargeable:</label>
+            <input type="text" id="chargeable" name="chargeable">
+
+            <label for="work_description">Work Description:</label>
+            <input type="text" id="work_description" name="work_description">
+
+            <label for="urgency">Urgency:</label>
+            <input type="text" id="urgency" name="urgency">
+
+            <input type="submit" value="Add Job">
+        </form>
+        <br>
+        <!-- <a href="/joblist">View Jobs</a> -->
+    </div>
+
+    <div id="container2">
+        <table>
+            <thead>
+                <tr>
+                    <th>Job Code</th>
+                    <th>Chargeable</th>
+                    <th>Work Description</th>
+                    <th>Urgency</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks2 %}
+                <tr>
+                    <td>{{ task[0] }}</td>
+                    <td>{{ task[1] }}</td>
+                    <td>{{ task[2] }}</td>
+                    <td>{{ task[3] }}</td>
+                    <td>{{ task[4] }}</td>
+                    <td>
+                        {% if task[4] == 'pending' %}
+                        <form action="/markcomplete" method="POST">
+                            <input type="hidden" name="job_code" value="{{ task[0] }}">
+                            <input type="submit" value="Mark Complete">
+                        </form>
+                        {% else %}
+                        Complete
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
